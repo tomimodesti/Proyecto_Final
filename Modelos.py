@@ -4,11 +4,11 @@ from sqlalchemy.orm import sessionmaker
 
 #puse miles de import que me encontre, despues los podemos ir sacando
 from flask import Flask, request, jsonify
-from flask import flask,request
+from flask import request
 import datetime
 from flask_sqlalchemy import SQLAlchemy 
 
-app= flask(__name__)
+app= Flask(__name__)
 port = 5000
 
 #aca hay que cambiar la url
