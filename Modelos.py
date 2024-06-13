@@ -3,20 +3,21 @@ from flask_sqlalchemy import SQLAlchemy
 
 Tabla=SQLAlchemy()
 
-#Tabla de los usuarios
-class Mineros (Tabla.model):
+#Tabla de los Mineros
+class Mineros(Tabla.Model):
     __tablename__='Mineros'
-    id_minero=Tabla.column(Tabla.Integrer,primary_key=True)
-    nombre=Tabla.column(Tabla.String(255),Nullable=False)
-    dinero=Tabla.column(Tabla.Integrer,Nullable=False)
-    Creacion=Tabla.column(Tabla.DateTime,default=datetime.datetime.now())
+    id_minero: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(unique=True)
+    dinero: Mapped[int] = mapped_column(default: 0,)
+    creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
 
 #tabla de la minas en si
-class Minas (Tabla.model):
-    __tablename__='Tipos_minas'
-    id_tipo_mina=Tabla.column(Tabla.Integrer,primary_key=True)
-    nombre=Tabla.column(Tabla.Integrer,Nullable=False)
-    dinero_generado=Tabla.column(Tabla.Integrer,Nullable=False)
+class Minas(Tabla.model):
+    __tablename__='tipos_minas'
+    id_tipo_mina: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(unique=True)
+    dinero_generado: Mapped[int] = mapped_column(default=0 ,nullable=False)
+    tiempo_mineria: Mapped[int] = mapped_column(,nullable=False)
     #aca iria cuanto tiempo tarda (tengo que buscar como hacerlo :)  )
 
 #aca se deberian poner todas las minas, activas e inactivas (osea que ya fueron "minadas")
