@@ -1,23 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-#puse miles de import que me encontre, despues los podemos ir sacando
-from flask import Flask, request, jsonify
-from flask import request
 import datetime
 from flask_sqlalchemy import SQLAlchemy 
-from main import app
-
-
-#aca hay que cambiar la url
-app.config['SQLALCHEMY_DATABASE_URI']= 'jdbc:postgresql://localhost:5432/postgres'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 Tabla=SQLAlchemy()
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0" , debug=True, port=port)
 
 #Tabla de los usuarios
 class Mineros (Tabla.model):

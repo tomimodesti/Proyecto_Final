@@ -1,17 +1,24 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+#from sqlalchemy import create_engine, Column, Integer, String
+#from sqlalchemy.ext.declarative import declarative_base
+#from sqlalchemy.orm import sessionmaker
 #puse miles de import que me encontre, despues los podemos ir sacando
+
 from flask import Flask, request, jsonify
 from flask import request
 import datetime
-from flask_sqlalchemy import SQLAlchemy 
-from Modelos import Tabla,app,Mineros, Minas, Minas_historial
+from Modelos import Tabla,Mineros, Minas, Minas_historial
 
 #aca pondriamos los endpoints
 
 app= Flask(__name__)
 port = 5000
+
+
+
+#aca hay que cambiar la url
+app.config['SQLALCHEMY_DATABASE_URI']= 'jdbc:postgresql://localhost:5432/postgres'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+
 
 @app.route('/',methods=['GET'])
 def All_mineros():
