@@ -7,9 +7,8 @@ from flask import Flask, request, jsonify
 from flask import request
 import datetime
 from flask_sqlalchemy import SQLAlchemy 
+from main import app
 
-app= Flask(__name__)
-port = 5000
 
 #aca hay que cambiar la url
 app.config['SQLALCHEMY_DATABASE_URI']= 'jdbc:postgresql://localhost:5432/postgres'

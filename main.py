@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from flask import request
 import datetime
 from flask_sqlalchemy import SQLAlchemy 
-from Modelos import app,Mineros, Minas, Minas_historial
+from Modelos import Tabla,app,Mineros, Minas, Minas_historial
 
 #aca pondriamos los endpoints
 
@@ -47,3 +47,10 @@ def One_minero(id_minero):
     except Exception as error:
         print('Error al cargar datos',error)
         return jsonify({'Mensaje: Error al cargar datos'})
+    
+
+if __name__== '__main__':
+    Tabla.init_app(app)
+    with app.app_context(app):
+        Tabla.create_all()
+    app.run(host='0.0.0.0',debug=True,port=port)
