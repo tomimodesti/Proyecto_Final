@@ -1,25 +1,22 @@
+#puse miles de import que me encontre, despues los podemos ir sacand
 #from sqlalchemy import create_engine, Column, Integer, String
 #from sqlalchemy.ext.declarative import declarative_base
 #from sqlalchemy.orm import sessionmaker
-#puse miles de import que me encontre, despues los podemos ir sacando
 
 from flask import Flask, request, jsonify
-from flask import request
 import datetime
-from Modelos import Tabla,Mineros, Minas, Minas_historial
-
+from Modelos import Tabla, Mineros, Minas, tipos_minas
+fdfd
 #aca pondriamos los endpoints
 
 app= Flask(__name__)
 port = 5000
 
-
-
 #aca hay que cambiar la url
 app.config['SQLALCHEMY_DATABASE_URI']= 'jdbc:postgresql://localhost:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
-
+#endpoint para obtener todos los datos de todos los usuarios
 @app.route('/',methods=['GET'])
 def All_mineros():
     try:
@@ -36,12 +33,13 @@ def All_mineros():
     except Exception as error:
         print('Error al cargar datos',error)
         return jsonify({'Mensaje: Error al cargar datos'})
-    
+
+#endpoint para obtener losd datos de solo un usuario
 @app.route('/minero/${Id}',methods=['GET'])
 def One_minero(id_minero):
     try:  
         # Tengo que ver como hacer la query de un minero especifico
-        minero=Mineros.Query.all()
+        minero=Mineros.SQLAlchemy.one_or_404(id_minero,nombre,dinero)
         minero_data=[]
         for Minero in minero:
             Minero_data={
@@ -51,6 +49,23 @@ def One_minero(id_minero):
             }
             minero_data.append(Minero_data)
         return jsonify({'Mineros':minero_data})
+    except Exception as error:
+        print('Error al cargar datos',error)
+        return jsonify({'Mensaje: Error al cargar datos'})
+
+#endpoint para crear un nuevo minero (usuario)
+@app.route('/crear/minero',methods=['POST'])
+def create_minero():
+    try:  
+       #le pasariamos el nombre de usuario a traves de la request, como tanto dinero y fecha de creacion son dados por default
+        data = request.get_json()
+        nombre=data.get("nombre")
+        nuevo_minero=Mineros(nombre=nombre)
+       
+        db.session.add(nuevo_minero)
+        db.session.commit()
+       
+        return jsonify({'Minero creado exitosamente'})
     except Exception as error:
         print('Error al cargar datos',error)
         return jsonify({'Mensaje: Error al cargar datos'})
