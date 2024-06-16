@@ -1,7 +1,7 @@
 import datetime
 from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy.orm import Mapped, mapped_column
-
+#supuestamente influye el uso de db en lugar de otro nombre como Tabla (no entiendo eso)
 Tabla=SQLAlchemy()
 
 #Tabla de los Mineros
@@ -9,7 +9,7 @@ class Mineros(Tabla.Model):
     __tablename__='Mineros'
     id_minero: Mapped[int] = mapped_column(primary_key=True)
     nombre: Mapped[str] = mapped_column(unique=True)
-    dinero: Mapped[int] = mapped_column(default: 0,)
+    dinero: Mapped[int] = mapped_column(default= 0)
     creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
 
 #tabla de la minas en si
@@ -26,7 +26,7 @@ class Minas(Tabla.model):
     id_mina: Mapped[int] = mapped_column(primary_key=True)   
     user_id: Mapped[intpk] = mapped_column(ForeignKey("Mineros.id_minero"))
     tipo_minador_id: Mapped[intpk] = mapped_column(ForeignKey("Minas.id_tipo_mina"))
-    fecha_creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc)
+    fecha_creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
     terminada: Mapped[bool] = mapped_column(default=False)
         
 #( encontre este ejemplo espero que sea valido: id: Mapped[intpk] = mapped_column(ForeignKey("parent.id"))  )

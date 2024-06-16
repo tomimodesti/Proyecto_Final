@@ -6,7 +6,7 @@
 from flask import Flask, request, jsonify
 import datetime
 from Modelos import Tabla, Mineros, Minas, tipos_minas
-fdfd
+
 #aca pondriamos los endpoints
 
 app= Flask(__name__)
@@ -34,20 +34,22 @@ def All_mineros():
         print('Error al cargar datos',error)
         return jsonify({'Mensaje: Error al cargar datos'})
 
-#endpoint para obtener losd datos de solo un usuario
+#endpoint para obtener los datos de solo un usuario
 @app.route('/minero/${Id}',methods=['GET'])
 def One_minero(id_minero):
     try:  
         # Tengo que ver como hacer la query de un minero especifico
-        minero=Mineros.SQLAlchemy.one_or_404(id_minero,nombre,dinero)
+        minero=Mineros.SQLAlchemy.get_or_404(id_minero)
+        #supuestamente cambio la forma de hacer query
+        #minero=Tabla.session.execute(Tabla.select(Mineros).oreder_by(Mineros.id_minero)).scalars()
         minero_data=[]
-        for Minero in minero:
-            Minero_data={
-                'Id':Minero.id,
-                'Nombre':Minero.nombre,
-                'Dinero':Minero.dinero,
-            }
-            minero_data.append(Minero_data)
+        
+        Minero_data={
+            'Id':minero.id,
+            'Nombre':minero.nombre,
+            'Dinero':minero.dinero,
+        }
+        minero_data.append(Minero_data)
         return jsonify({'Mineros':minero_data})
     except Exception as error:
         print('Error al cargar datos',error)
@@ -59,11 +61,14 @@ def create_minero():
     try:  
        #le pasariamos el nombre de usuario a traves de la request, como tanto dinero y fecha de creacion son dados por default
         data = request.get_json()
+        #nuevo_minero=Minero(
+        #nombre=request.form["nombre"]
+        #)
         nombre=data.get("nombre")
         nuevo_minero=Mineros(nombre=nombre)
        
-        db.session.add(nuevo_minero)
-        db.session.commit()
+        Tabla.session.add(nuevo_minero)
+        Tabla.session.commit()
        
         return jsonify({'Minero creado exitosamente'})
     except Exception as error:
