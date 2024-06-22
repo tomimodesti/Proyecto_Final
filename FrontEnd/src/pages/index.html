@@ -44,4 +44,20 @@
     <footer>
         me falta el footer :)
     </footer>
+    <script>
+
+      function manejar_error(error){
+        console.log("ERROR")
+        console.log(error)
+      }
+
+      function Respuesta{
+        
+      }
+
+      fetch("http://localhost:5000/",method=["GET"])
+      .then(Respuesta())
+      .then(Accion_respuesta())
+      .catch(manejar_error())
+    </script>
 </body>
