@@ -1,6 +1,5 @@
 from flask import request, jsonify
-from . import db
-from .modelos import Mineros, Usuario
+from .modelos import Mineros, Usuario, db
 
 
 def init_routes(app):
@@ -40,7 +39,9 @@ def init_routes(app):
         try:
             data = request.get_json()
             nombre = data.get("nombre")
-            nuevo_minero = Mineros(nombre=nombre)
+            tipo_minador = data.get("tipo_minador")
+            usario_id = data.get("usuario_id")
+            nuevo_minero = Mineros(nombre=nombre, tipo_minador_id=tipo_minador, id_usuario=usario_id)
             db.session.add(nuevo_minero)
             db.session.commit()
             return jsonify({'Mensaje': 'Minero creado exitosamente'}), 201
@@ -56,7 +57,7 @@ def init_routes(app):
             nuevo_usuario = Usuario(nombre=nombre)
             db.session.add(nuevo_usuario)
             db.session.commit()
-            return jsonify({'Usuario creado exitosamente'}), 201
+            return jsonify('Usuario creado exitosamente'), 201
         except Exception as error:
             print('Error al crear usuario', error)
-            return jsonify({'Error al crear usuario'}), 500
+            return jsonify('Error al crear usuario'), 500
