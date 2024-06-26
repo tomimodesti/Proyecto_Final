@@ -32,3 +32,22 @@
   * Opcion para crear usuario
 - Pagina tipo de minador
 
+
+## Requisitos
+- Configurar paramentros de base de datos en BackEnd/src/config.py
+
+## Instalar
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r BackEnd/requirements.txt
+```
+
+## Correr
+```bash
+source venv/bin/activate
+cd BackEnd/src
+export FLASK_APP=main.py
+export FLASK_ENV=development
+flask run --debug
+```
