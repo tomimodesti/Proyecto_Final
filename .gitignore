@@ -1,0 +1,16 @@
+# editors
+/.idea
+/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.DS_Store
+.settings/
+*.sublime-workspace
+tsconfig.tsbuildinfo
+
+# Ignorar entornos virtuales de Python
+venv/
+.env/
+/.env
