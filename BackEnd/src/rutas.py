@@ -5,7 +5,16 @@ from .modelos import Mineros, Usuario, db, TiposMinas
 def init_routes(app):
     @app.route('/', methods=['GET'])
     def index():
-        return jsonify({'Mensaje': 'Hola Mundo'})
+        return """
+            <html>
+            <body>
+            <h1>Bienvenido a la API de Mineros</h1>
+            <a href="/mineros">Mineros</a>
+            <a href="/tipos_minas">Tipo de minas</a>
+            <a href="/usuarios">usuario</a>
+            </body>
+            </html>
+            """
 
     @app.route('/mineros', methods=['GET'])
     def mineros():
@@ -19,7 +28,7 @@ def init_routes(app):
                     'dinero': minero.dinero,
                 }
                 mineros_data.append(minero_data)
-            return jsonify({'Mineros': mineros_data})
+            return jsonify({'mineros': mineros_data})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'error al cargar datos de Mineros'}), 500
@@ -48,7 +57,7 @@ def init_routes(app):
                 'nombre': minero.nombre,
                 'dinero': minero.dinero
             }
-            return jsonify({'Minero': minero_data})
+            return jsonify({'minero': minero_data})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de minero ID: ', id_minero}), 500
@@ -62,20 +71,27 @@ def init_routes(app):
                 usuario_data = {
                     'id': usuario.usuario_id,
                     'nombre': usuario.nombre,
+                    'apellido': usuario.apellido,
+                    'email': usuario.email,
+                    'nombre_usuario': usuario.nombre_usuario,
                     'dinero': usuario.dinero
                 }
                 usuarios_data.append(usuario_data)
-            return jsonify({'Usuarios': usuarios_data})
+            return jsonify({'usuarios': usuarios_data})
         except Exception as error:
             print('Error al cargar datos', error)
-            return jsonify({'Error al cargar datos de Usuarios'}), 500
+            return jsonify({'Error al cargar datos de usuario'}), 500
 
     @app.route('/usuario', methods=['POST'])
     def crear_usuario():
         try:
             data = request.get_json()
             nombre = data.get("nombre")
-            nuevo_usuario = Usuario(nombre=nombre)
+            apellido = data.get("apellido")
+            email = data.get("email")
+            nombre_usuario = data.get("nombre_usuario")
+            password = data.get("password")
+            nuevo_usuario = Usuario(nombre=nombre, apellido=apellido, email=email, nombre_usuario=nombre_usuario, password=password)
             db.session.add(nuevo_usuario)
             db.session.commit()
             return jsonify('Usuario creado exitosamente'), 201
@@ -121,7 +137,7 @@ def init_routes(app):
                     'tiempo_mineria': tipo_mina.tiempo_mineria
                 }
                 tipos_minas_data.append(tipo_mina_data)
-            return jsonify({'Tipos Minas': tipos_minas_data})
+            return jsonify({'tiposMinas': tipos_minas_data})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de Tipos Minas'}), 500
