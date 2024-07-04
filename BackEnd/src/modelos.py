@@ -28,10 +28,14 @@ class TiposMinas(db.Model):
     tiempo_mineria: Mapped[int] = mapped_column(nullable=False)
 
 
-# Tabla de Usuarios
+# Tabla de usuario
 class Usuario(db.Model):
     __tablename__ = 'usuario'
     usuario_id: Mapped[int] = mapped_column(primary_key=True)
     nombre: Mapped[str] = mapped_column(unique=True)
+    apellido: Mapped[str] = mapped_column(unique=True)
+    email: Mapped[str] = mapped_column(unique=True)
+    nombre_usuario: Mapped[str] = mapped_column(unique=True)
+    password: Mapped[str] = mapped_column(nullable=False)
     dinero: Mapped[int] = mapped_column(default=0)
     fecha_creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
