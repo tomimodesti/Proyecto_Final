@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const tiposMinasContainer = document.getElementById('tipos-minas-container');
-            console.log(data.tiposMinas);
             data.tiposMinas.forEach(tipo => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -37,12 +36,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const usuariosContainer = document.getElementById('usuarios-container');
-            data.forEach(usuario => {
+            console.log(data)
+            data.usuarios.forEach(usuario => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="card-body">
-                        <h5 class="card-title">${usuario.nombre}</h5>
+                        <h5 class="card-title">${usuario.nombre}(${usuario.nombre_usuario})</h5>
+                        <p class="card-text">Apellido: ${usuario.apellido}</p>
+                        <p class="card-text">Email: ${usuario.email}</p>
+                        <p class="card-text">Dinero: ${usuario.dinero}</p>
                     </div>
                 `;
                 usuariosContainer.appendChild(card);
