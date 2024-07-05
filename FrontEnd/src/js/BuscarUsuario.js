@@ -1,47 +1,4 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-    const urlparam = new URLSearchParams(window.location.search);
-    const id_user = urlparam.get(id);
-    
-    if(id_user){
-
-        fetch(`http://localhost:5000/usuario/${id_user}`)
-
-        .then(response => response.json())
-
-        .then(data => {
-
-            console.log (data);
-
-            const usuarioContainer = document.getElementById('usuario-container');
-
-            const usuario = data.Usuario;
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                <div class="card">
-                    <div class="card-body m-4">
-                        <h5 class="card-title"> Nombre: ${usuario.nombre} (@${usuario.nombre_usuario})</h5>
-                        <p class="card-text">Apellido: ${usuario.apellido}</p>
-                        <p class="card-text">Email: ${usuario.email}</p>
-                        <p class="card-text">Dinero: ${usuario.dinero}</p>
-                    </div>
-                </div>
-                `;
-                usuarioContainer.appendChild(card);
-            })
-
-        .catch(error => {
-            console.error('Error al cargar datos:', error);
-            });
-    }
-
-    else {
-        console.error('ID de usuario no especificado en la URL');
-    }
-
-})
 
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -56,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log(data); // Verifica la estructura del JSON recibido
+                console.log(data);
 
                 const usuarioContainer = document.getElementById('usuario-container');
 
@@ -75,7 +32,29 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     `;
-                    usuarioContainer.appendChild(card); // Asegúrate de usar 'card' aquí
+
+                    
+                    const Clase = document.createElement('div');
+                    if (usuario.dinero < 100) {
+                        Clase.innerHTML = `
+                            <h4>CLASS: <small>"Starter Miner"</small></h4>
+                        `;
+                    } else if (usuario.dinero >= 100 && usuario.dinero < 300) {
+                        Clase.innerHTML = `
+                            <h4>CLASS: <small>"Crypto Bro"</small></h4>
+                        `;
+                    } else if (usuario.dinero >= 300) {
+                        Clase.innerHTML = `
+                            <h4>CLASS: <small>"Elon Partner"</small></h4>
+                        `;
+                    }
+
+                    
+                    card.appendChild(Clase);
+
+                   
+                    usuarioContainer.appendChild(card);                    
+                    
                 } else {
                     console.error('Usuario no encontrado en la respuesta.');
                 }
