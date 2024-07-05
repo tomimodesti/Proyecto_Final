@@ -107,7 +107,10 @@ def init_routes(app):
                 usuario_data = {
                     'id': usuario.usuario_id,
                     'nombre': usuario.nombre,
-                    'dinero': usuario.dinero
+                    'apellido':usuario.apellido,
+                    'dinero': usuario.dinero,
+                    'email':usuario.email,
+                    'nombre_usuario':usuario.nombre_usuario
                 }
                 return jsonify({'Usuario': usuario_data})
             elif request.method == 'PUT':
