@@ -5,12 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const minerosContainer = document.getElementById('mineros-container');
             data.mineros.forEach(minero => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'col';
                 card.innerHTML = `
+                <div>
                     <div class="card-body">
                         <h5 class="card-title">${minero.nombre}</h5>
                         <p class="card-text">Dinero: ${minero.dinero}</p>
                     </div>
+                </div>
                 `;
                 minerosContainer.appendChild(card);
             });
@@ -22,11 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const tiposMinasContainer = document.getElementById('tipos-minas-container');
             data.tiposMinas.forEach(tipo => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'col';
                 card.innerHTML = `
+                <div>
                     <div class="card-body">
                         <h5 class="card-title">${tipo.nombre}</h5>
                     </div>
+                </div>
                 `;
                 tiposMinasContainer.appendChild(card);
             });
@@ -39,14 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(data)
             data.usuarios.forEach(usuario => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'col';
                 card.innerHTML = `
-                    <div class="card-body">
-                        <h5 class="card-title">${usuario.nombre}(${usuario.nombre_usuario})</h5>
+                <div class="card">
+                    <div class="card-body m-4">
+                        <h5 class="card-title"> Nombre: ${usuario.nombre} (@${usuario.nombre_usuario})</h5>
                         <p class="card-text">Apellido: ${usuario.apellido}</p>
                         <p class="card-text">Email: ${usuario.email}</p>
                         <p class="card-text">Dinero: ${usuario.dinero}</p>
                     </div>
+                </div>
                 `;
                 usuariosContainer.appendChild(card);
             });
