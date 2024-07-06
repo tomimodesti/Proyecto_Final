@@ -23,10 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     card.innerHTML = `
                         <div class="card">
                             <div class="card-body m-4">
-                                <h5 class="card-title"> Nombre: ${usuario.nombre} (@${usuario.nombre_usuario})</h5>
-                                <p class="card-text">Apellido: ${usuario.apellido}</p>
-                                <p class="card-text">Email: ${usuario.email}</p>
-                                <p class="card-text">Dinero: ${usuario.dinero}</p>
+                                <h5 class="card-title" style="font-size:25px"> Nombre: ${usuario.nombre} (@${usuario.nombre_usuario})</h5>
+                                <p class="card-text" style="font-size:25px">Apellido: ${usuario.apellido}</p>
+                                <p class="card-text" style="font-size:25px">Email: ${usuario.email}</p>
+                                <p class="card-text" style="font-size:25px">Dinero: ${usuario.dinero} <i class="material-icons" style="font-size:25px" >&#xe227;</i> </p>
                             </div>
                         </div>
                     `;
