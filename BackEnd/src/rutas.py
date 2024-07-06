@@ -43,7 +43,7 @@ def init_routes(app):
                     'id': minero.minero_id,
                     'nombre': minero.nombre,
                     'dinero': minero.dinero,
-                    'tipo_min':minero.tipo_minador_id,
+                    'tipo_minador_id':minero.tipo_minador_id
                 }
                 mineros_data.append(minero_data)
             return jsonify({'mineros': mineros_data})
