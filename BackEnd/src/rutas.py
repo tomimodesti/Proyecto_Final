@@ -37,6 +37,24 @@ def init_routes(app):
             print('Error al cargar datos', error)
             return jsonify({'error al cargar datos de Mineros'}), 500
 
+    @app.route('/mineros/<int:id_usuario>', methods=['GET'])
+    def mineros_de_usuario(id_usuario):
+        try:
+            mineros = Mineros.query.filter_by(usuario_id=id_usuario).all();
+            mineros_data = []
+            for minero in mineros:
+                minero_data = {
+                    'id': minero.minero_id,
+                    'nombre': minero.nombre,
+                    'dinero': minero.dinero,
+                    'tipo_minador_id':minero.tipo_minador_id
+                }
+                mineros_data.append(minero_data)
+            return jsonify({'mineros': mineros_data})
+        except Exception as error:
+            print('Error al cargar datos', error)
+            return jsonify({'error al cargar datos de Mineros'}), 500
+
     @app.route('/minero', methods=['POST'])
     def crear_minero():
         try:
@@ -168,7 +186,10 @@ def init_routes(app):
                 usuario_data = {
                     'id': usuario.usuario_id,
                     'nombre': usuario.nombre,
-                    'dinero': usuario.dinero
+                    'apellido':usuario.apellido,
+                    'dinero': usuario.dinero,
+                    'email':usuario.email,
+                    'nombre_usuario':usuario.nombre_usuario
                 }
                 return jsonify({'Usuario': usuario_data})
             elif request.method == 'PUT':
