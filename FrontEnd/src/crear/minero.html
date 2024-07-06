@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Crear minero</title>
+    <script src="../js/crearMinero.js"></script>
+</head>
+<body>
+    <form>
+        <div class="row mb-3">
+            <label for="inputName" class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputName">
+            </div>
+        </div>
+        <select class="form-select" aria-label="Default select">
+            <option selected="">Selecciona un tipo de minador</option>
+            <!--TODO: agregar map para listar minadores desde backed-->
+            <option value="1">Bitcoin</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+
+        <div>
+            <p>Coste</p>
+        </div>
+
+        <div>
+            <p>Detalles del minador</p>
+            <small>dinero que genera</small>
+            <small>tiempo demora</small>
+        </div>
+
+
+
+      <button type="submit" class="btn btn-primary">Crear Minero</button>
+    </form>
+</body>
+</html>
