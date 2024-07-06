@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, session
 from .modelos import Mineros, Usuario, db, TiposMinas
 
 
@@ -15,6 +15,8 @@ def init_routes(app):
             </body>
             </html>
             """
+
+    ############# MINEROS #############
 
     @app.route('/mineros', methods=['GET'])
     def mineros():
@@ -36,6 +38,9 @@ def init_routes(app):
     @app.route('/minero', methods=['POST'])
     def crear_minero():
         try:
+            if 'usuario_id' not in session:
+                return jsonify({'Debe iniciar sesion para crear un minero'}), 401
+
             data = request.get_json()
             nombre = data.get("nombre")
             tipo_minador = data.get("tipo_minador")
@@ -62,6 +67,7 @@ def init_routes(app):
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de minero ID: ', id_minero}), 500
 
+    ############# USUARIOS #############
     @app.route('/usuarios', methods=['GET'])
     def usuarios():
         try:
@@ -91,7 +97,8 @@ def init_routes(app):
             email = data.get("email")
             nombre_usuario = data.get("nombre_usuario")
             password = data.get("password")
-            nuevo_usuario = Usuario(nombre=nombre, apellido=apellido, email=email, nombre_usuario=nombre_usuario, password=password)
+            nuevo_usuario = Usuario(nombre=nombre, apellido=apellido, email=email, nombre_usuario=nombre_usuario)
+            nuevo_usuario.set_password(password)
             db.session.add(nuevo_usuario)
             db.session.commit()
             return jsonify('Usuario creado exitosamente'), 201
@@ -123,6 +130,7 @@ def init_routes(app):
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de usuario ID: ', id_usuario}), 500
 
+    ############# TIPOS MINAS #############
     @app.route('/tipos_minas', methods=['GET'])
     def tipos_minas():
         try:
@@ -150,7 +158,8 @@ def init_routes(app):
             coste = data.get("coste")
             dinero_generado = data.get("dinero_generado")
             tiempo_mineria = data.get("tiempo_mineria")
-            nuevo_tipo_mina = TiposMinas(nombre=nombre, coste=coste, dinero_generado=dinero_generado, tiempo_mineria=tiempo_mineria)
+            nuevo_tipo_mina = TiposMinas(nombre=nombre, coste=coste, dinero_generado=dinero_generado,
+                                         tiempo_mineria=tiempo_mineria)
             db.session.add(nuevo_tipo_mina)
             db.session.commit()
             return jsonify('Tipo Mina creado exitosamente'), 201
@@ -186,3 +195,32 @@ def init_routes(app):
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de tipo mina ID: ', id_tipo_mina}), 500
+
+    ############# SESION #############
+    @app.route('/iniciar_sesion', methods=['POST'])
+    def login():
+        try:
+            data = request.get_json()
+            nombre_usuario = data.get("nombre_usuario")
+            password = data.get("password")
+            usuario = Usuario.query.filter_by(nombre_usuario=nombre_usuario).first()
+            if usuario and usuario.check_password(password):
+                session['usuario_id'] = usuario.usuario_id
+                return jsonify({'Mensaje': 'Inicio de sesión exitoso'}), 200
+            else:
+                return jsonify({'Mensaje': 'Credenciales incorrectas'}), 401
+        except Exception as error:
+            print('Error al iniciar sesión', error)
+            return jsonify({'Mensaje': 'Error al iniciar sesión'}), 500
+
+    @app.route('/cerrar_sesion', methods=['GET'])
+    def logout():
+        session.pop('usuario_id', None)
+        return jsonify({'Mensaje': 'Sesión cerrada exitosamente'}), 200
+
+    @app.route('/sesion', methods=['GET'])
+    def verificar_session():
+        if 'usuario_id' in session:
+            return jsonify({'usuario_id': session['usuario_id']}), 200
+        else:
+            return jsonify({'mensaje': 'Sesion inactiva'}), 401
