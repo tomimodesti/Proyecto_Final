@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     console.log('Sesión cerrada exitosamente:', data);
                     alert('Sesión cerrada exitosamente');
-                    window.location.href = '../index.html';
+                    window.location.href = '/';
                 })
                 .catch(error => {
                     console.error('Error al cerrar sesión:', error);
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             authButtons.innerHTML = `
                 <a href="../login.html" class="btn btn-primary">Iniciar sesión</a>
+                <a href="../crear/usuario.html" class="btn btn-primary">Registrarse</a>
             `;
         }
     })
