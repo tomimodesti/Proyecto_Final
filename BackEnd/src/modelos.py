@@ -2,8 +2,10 @@ from datetime import datetime, timezone
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import ForeignKey
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
 
 
 # Tabla de los Mineros
@@ -39,3 +41,9 @@ class Usuario(db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
     dinero: Mapped[int] = mapped_column(default=0)
     fecha_creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
+
+    def set_password(self, password):
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
