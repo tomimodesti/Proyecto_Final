@@ -16,7 +16,7 @@ class Mineros(db.Model):
     tipo_minador_id: Mapped[int] = mapped_column(ForeignKey("tipos_minas.tipo_id"))
     nombre: Mapped[str] = mapped_column(unique=True)
     dinero: Mapped[int] = mapped_column(default=0)
-    fecha_creacion: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_ultima_recoleccion = db.Column(db.DateTime, nullable=True)
 
 

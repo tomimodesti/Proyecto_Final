@@ -40,7 +40,7 @@ def init_routes(app):
     @app.route('/mineros/<int:id_usuario>', methods=['GET'])
     def mineros_de_usuario(id_usuario):
         try:
-            mineros = Mineros.query.filter_by(usuario_id=id_usuario).all();
+            mineros = Mineros.query.filter_by(usuario_id=id_usuario).all()
             mineros_data = []
             for minero in mineros:
                 minero_data = {
@@ -86,25 +86,43 @@ def init_routes(app):
     def minero(id_minero):
         try:
             minero = Mineros.query.get_or_404(id_minero)
+            usuario = Usuario.query.get(session['usuario_id'])
+            if request.method == 'GET':
 
-            tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
-            if minero.fecha_ultima_recoleccion is None:
-                tiempo_transcurrido = (datetime.utcnow() - minero.fecha_creacion).total_seconds()
-            else:
-                tiempo_transcurrido = (datetime.utcnow() - minero.fecha_ultima_recoleccion).total_seconds()
+                tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
+                if minero.fecha_ultima_recoleccion is None:
+                    tiempo_transcurrido = (datetime.utcnow() - minero.fecha_creacion).total_seconds()
+                else:
+                    tiempo_transcurrido = (datetime.utcnow() - minero.fecha_ultima_recoleccion).total_seconds()
 
-            tiempo_restante = max(tipo_minador.tiempo_mineria - tiempo_transcurrido, 0)
+                if tiempo_transcurrido >= tipo_minador.tiempo_mineria:
+                    tiempo_restante = 0
+                else:
+                    tiempo_restante = tipo_minador.tiempo_mineria - tiempo_transcurrido
 
-            minero_data = {
-                'nombre': minero.nombre,
-                'coste': tipo_minador.coste,
-                'dinero_generado': tipo_minador.dinero_generado,
-                'tiempo_mineria': tipo_minador.tiempo_mineria,
-                'fecha_creacion': minero.fecha_creacion,
-                'fecha_ultima_recoleccion': minero.fecha_ultima_recoleccion,
-                'tiempo_restante': tiempo_restante
-            }
-            return jsonify({'minero': minero_data})
+                minero_data = {
+                    'nombre': minero.nombre,
+                    'coste': tipo_minador.coste,
+                    'dinero_generado': tipo_minador.dinero_generado,
+                    'tiempo_mineria': tipo_minador.tiempo_mineria,
+                    'fecha_creacion': minero.fecha_creacion,
+                    'fecha_ultima_recoleccion': minero.fecha_ultima_recoleccion,
+                    'tiempo_restante': tiempo_restante
+                }
+                return jsonify({'minero': minero_data})
+            elif request.method == 'PUT':
+                if usuario.usuario_id != minero.usuario_id:
+                    return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
+                data = request.get_json()
+                minero.nombre = data.get("nombre")
+                db.session.commit()
+                return jsonify({'Minero id:', id_minero, ' actualizado exitosamente'})
+            elif request.method == 'DELETE':
+                if usuario.usuario_id != minero.usuario_id:
+                    return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
+                db.session.delete(minero)
+                db.session.commit()
+                return jsonify({'Mensaje:','minero eliminado exitosamente'})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de minero ID: ', id_minero}), 500
@@ -120,11 +138,16 @@ def init_routes(app):
             minero = Mineros.query.get(minero_id)
             usuario = Usuario.query.get(session['usuario_id'])
 
-            if not minero or not usuario or minero.id_usuario != usuario.id:
+            if not minero or not usuario or minero.usuario_id != usuario.usuario_id:
                 return jsonify({'Mensaje': 'Minero o usuario no encontrado'}), 404
 
-            tiempo_transcurrido = (datetime.utcnow() - minero.fecha_ultima_recoleccion).total_seconds()
             tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
+
+            if minero.fecha_ultima_recoleccion is None:
+                minero.fecha_ultima_recoleccion = minero.fecha_creacion
+                db.session.commit()
+
+            tiempo_transcurrido = (datetime.utcnow() - minero.fecha_ultima_recoleccion).total_seconds()
 
             if tiempo_transcurrido >= tipo_minador.tiempo_mineria:
                 dinero_generado = tipo_minador.dinero_generado
