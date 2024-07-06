@@ -1,0 +1,16 @@
+#cartasTiposMinas{
+    margin: 0 auto;
+    width: 90%;
+}
+.container{
+    margin-top: 2%;
+    padding: 15px;
+}
+.boton-crear-minero{
+    margin: 10px auto;
+    max-width: 250px;
+    width: inherit;
+}
+.nombre-minero{
+    justify-content: center
+}
