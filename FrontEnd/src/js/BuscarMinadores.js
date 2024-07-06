@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(`http://localhost:5000/mineros/${id_user}`)
         .then(response => response.json())
         .then(data => {
+
             const minerosContainer = document.getElementById('mineros-container');
             data.mineros.forEach(minero => {
                 const card = document.createElement('div');
