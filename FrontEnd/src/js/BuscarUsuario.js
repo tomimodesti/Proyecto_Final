@@ -2,10 +2,10 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const id_user = urlParams.get('id'); // Asegúrate de que 'id' sea una cadena
+    const id_user = urlParams.get('id'); 
 
     if (id_user) {
-        fetch(`http://localhost:5000/usuario/${id_user}`) // Utiliza el id_user directamente
+        fetch(`http://localhost:5000/usuario/${id_user}`) 
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
