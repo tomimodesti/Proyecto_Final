@@ -16,7 +16,7 @@ function eliminarUsuario() {
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
             }
-                return response.txt();
+                return response.JSON();
             })
             .then(data => {
                 alert(`Usuario eliminado correctamente`);
@@ -42,11 +42,11 @@ function editarUsuario() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                nombre: document.getElementById('nombre').value,
-                apellido: document.getElementById('apellido').value,
-                email: document.getElementById('email').value,
-                nombre_usuario: document.getElementById('nombre_usuario').value,
-                password: document.getElementById('password').value
+                nombre: document.getElementById('inputName').value,
+                apellido: document.getElementById('inputLastName').value,
+                email: document.getElementById('inputEmail3').value,
+                nombre_usuario: document.getElementById('inputUserName').value,
+                password: document.getElementById('inputPassword3').value
             })
         })
         .then(response => {
@@ -56,7 +56,7 @@ function editarUsuario() {
             return response.txt();
         })
         .then(data => {
-            alert(`Usuario eliminado correctamente`);
+            alert(`Usuario actualizado correctamente`);
             window.location.href = '/';
     })
     .catch(error => {

@@ -204,7 +204,9 @@ def init_routes(app):
     @app.route('/usuario/<int:id_usuario>', methods=['GET', 'PUT', 'DELETE'])
     def usuario(id_usuario):
         try:
+
             usuario = Usuario.query.get_or_404(id_usuario)
+
             if request.method == 'GET':
                 usuario_data = {
                     'id': usuario.usuario_id,
@@ -215,11 +217,21 @@ def init_routes(app):
                     'nombre_usuario':usuario.nombre_usuario
                 }
                 return jsonify({'Usuario': usuario_data})
+            
             elif request.method == 'PUT':
+
                 data = request.get_json()
-                usuario.nombre = data.get("nombre")
+
+                usuario.nombre = data.get("nombre",usuario.nombre)
+                usuario.apellido = data.get("apellido",usuario.apellido)
+                usuario.email=data.get("email",usuario.email)
+                usuario.nombre_usuario=data.get("nombre_usuario",usuario.nombre_usuario)
+                usuario.password=data.get("password",usuario.password)
+
                 db.session.commit()
-                return jsonify({'Usuario id:', id_usuario, ' actualizado exitosamente'})
+
+                return jsonify({'Usuario id: ${id_usuario} actualizado exitosamente'})
+            
             elif request.method == 'DELETE':
                 session.pop('usuario_id', None)
                 db.session.delete(usuario)
