@@ -34,6 +34,8 @@ function eliminarUsuario() {
 }
 
 function editarUsuario() {
+   document.preventDefault();
+
     if(id_user){
         fetch(`http://localhost:5000/usuario/${id_user}` ,{
             method : 'PUT',
@@ -53,19 +55,20 @@ function editarUsuario() {
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status}`);
         }
-            return response.txt();
+            return response.json();
         })
         .then(data => {
             alert(`Usuario actualizado correctamente`);
-            window.location.href = '/';
+            window.location.href = `/usuario?id=${id_user}`;
+            return data.json();
     })
     .catch(error => {
-        console.error('Error al eliminar el usuario:', error);
-        alert('Hubo un error al eliminar el usuario');
+        console.error('Error con modificar datos 1:', error);
+        alert('Hubo un error al actualizar el usuario');
     });
     }
     else{
-        alert("Errores al borrar los datos del usuario");
+        alert("Error al actualizar usuario 2");
     }
 }
 

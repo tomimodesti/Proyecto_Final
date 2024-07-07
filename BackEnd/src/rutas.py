@@ -229,8 +229,8 @@ def init_routes(app):
                 usuario.password=data.get("password",usuario.password)
 
                 db.session.commit()
-
-                return jsonify({'Usuario id: ${id_usuario} actualizado exitosamente'})
+                return jsonify({'message': f'Usuario id: {id_usuario} actualizado exitosamente'})
+                #return jsonify({'Usuario id: ${id_usuario} actualizado exitosamente'})
             
             elif request.method == 'DELETE':
                 session.pop('usuario_id', None)

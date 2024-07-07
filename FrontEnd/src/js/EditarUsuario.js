@@ -36,7 +36,7 @@ if(id_user){
         console.error('Error al cargar datos:', error);
     });
 }else{
-    alert("error al cargar datos del usuario")
+    alert("error al cargar datos del usuario 1")
 }
 
 })
