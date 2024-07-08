@@ -115,6 +115,7 @@ def init_routes(app):
                     return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
                 data = request.get_json()
                 minero.nombre = data.get("nombre")
+                minero.tipo_minador_id=data.get("tipo_minador")
                 db.session.commit()
                 return jsonify({'Minero id:', id_minero, ' actualizado exitosamente'})
             elif request.method == 'DELETE':
