@@ -224,7 +224,7 @@ def init_routes(app):
                 session.pop('usuario_id', None)
                 db.session.delete(usuario)
                 db.session.commit()
-                return jsonify({'Usuario id:', 'usuario eliminado exitosamente'})
+                return jsonify({'Mensaje:', 'usuario eliminado exitosamente'})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de usuario ID: ', id_usuario}), 500
@@ -322,4 +322,4 @@ def init_routes(app):
         if 'usuario_id' in session:
             return jsonify({'usuario_id': session['usuario_id']}), 200
         else:
-            return jsonify({'mensaje': 'Sesion inactiva'}), 401
+            return jsonify({'mensaje': 'Sesion inactiva'}), 200

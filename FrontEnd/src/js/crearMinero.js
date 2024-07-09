@@ -1,4 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    fetch('http://localhost:5000/sesion', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.mensaje === "Sesion inactiva") {
+            window.location.href = '../login.html';
+        }
+    })
+    .catch(error => {
+        console.error('Error al verificar usuario, vuelva a iniciar sesion:', error);
+        alert('Error al verificar usuario, vuelva a iniciar sesion.');
+    });
+
     const form = document.querySelector('form');
     const cartasTiposMinas = document.getElementById('cartasTiposMinas');
 
