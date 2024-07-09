@@ -119,13 +119,13 @@ def init_routes(app):
                 minero.nombre = data.get("nombre")
                 minero.tipo_minador_id=data.get("tipo_minador")
                 db.session.commit()
-                return jsonify({'Minero id:', id_minero, ' actualizado exitosamente'})
+                return jsonify({'Minero id': ' actualizado exitosamente'})
             elif request.method == 'DELETE':
                 if session['usuario_id'] != minero.usuario_id:
                     return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
                 db.session.delete(minero)
                 db.session.commit()
-                return jsonify({'Mensaje:','minero eliminado exitosamente'})
+                return jsonify({'Mensaje': 'minero eliminado exitosamente'})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de minero ID: ', id_minero}), 500
