@@ -41,6 +41,8 @@ def init_routes(app):
     def mineros_de_usuario(id_usuario):
         try:
             mineros = Mineros.query.filter_by(usuario_id=id_usuario).all()
+            if not mineros:
+                return jsonify({'Mensaje': 'No se encontraron mineros para el usuario'}), 404
             mineros_data = []
             for minero in mineros:
                 minero_data = {
@@ -86,7 +88,6 @@ def init_routes(app):
     def minero(id_minero):
         try:
             minero = Mineros.query.get_or_404(id_minero)
-            usuario = Usuario.query.get(session['usuario_id'])
             if request.method == 'GET':
 
                 tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
@@ -102,6 +103,7 @@ def init_routes(app):
 
                 minero_data = {
                     'nombre': minero.nombre,
+                    'tipo_minador': minero.tipo_minador_id,
                     'coste': tipo_minador.coste,
                     'dinero_generado': tipo_minador.dinero_generado,
                     'tiempo_mineria': tipo_minador.tiempo_mineria,
@@ -111,7 +113,7 @@ def init_routes(app):
                 }
                 return jsonify({'minero': minero_data})
             elif request.method == 'PUT':
-                if usuario.usuario_id != minero.usuario_id:
+                if session['usuario_id'] != minero.usuario_id:
                     return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
                 data = request.get_json()
                 minero.nombre = data.get("nombre")
@@ -119,7 +121,7 @@ def init_routes(app):
                 db.session.commit()
                 return jsonify({'Minero id:', id_minero, ' actualizado exitosamente'})
             elif request.method == 'DELETE':
-                if usuario.usuario_id != minero.usuario_id:
+                if session['usuario_id'] != minero.usuario_id:
                     return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
                 db.session.delete(minero)
                 db.session.commit()
@@ -205,39 +207,43 @@ def init_routes(app):
     @app.route('/usuario/<int:id_usuario>', methods=['GET', 'PUT', 'DELETE'])
     def usuario(id_usuario):
         try:
-
             usuario = Usuario.query.get_or_404(id_usuario)
 
             if request.method == 'GET':
                 usuario_data = {
                     'id': usuario.usuario_id,
                     'nombre': usuario.nombre,
-                    'apellido':usuario.apellido,
+                    'apellido': usuario.apellido,
                     'dinero': usuario.dinero,
-                    'email':usuario.email,
-                    'nombre_usuario':usuario.nombre_usuario
+                    'email': usuario.email,
+                    'nombre_usuario': usuario.nombre_usuario,
+                    'mi_perfil': (usuario.usuario_id == session['usuario_id'])
                 }
                 return jsonify({'Usuario': usuario_data})
             
             elif request.method == 'PUT':
 
-                data = request.get_json()
+                if 'usuario_id' not in session or usuario.usuario_id != session['usuario_id']:
+                    return jsonify({'Mensaje': 'No tienes permiso para actualizar este usuario'}), 403
 
+                data = request.get_json()
                 usuario.nombre = data.get("nombre",usuario.nombre)
                 usuario.apellido = data.get("apellido",usuario.apellido)
                 usuario.email=data.get("email",usuario.email)
                 usuario.nombre_usuario=data.get("nombre_usuario",usuario.nombre_usuario)
-                usuario.password=data.get("password",usuario.password)
-
+                #usuario.set_password(data.get("password",usuario.password))
                 db.session.commit()
-                return jsonify({'message': f'Usuario id: {id_usuario} actualizado exitosamente'})
-                #return jsonify({'Usuario id: ${id_usuario} actualizado exitosamente'})
-            
+                return jsonify({'Mensaje': 'Usuario actualizado exitosamente'})
+
             elif request.method == 'DELETE':
+
+                if 'usuario_id' not in session or usuario.usuario_id != session['usuario_id']:
+                    return jsonify({'Mensaje': 'No tienes permiso para eliminar este usuario'}), 403
+
                 session.pop('usuario_id', None)
                 db.session.delete(usuario)
                 db.session.commit()
-                return jsonify({'Mensaje:', 'usuario eliminado exitosamente'})
+                return jsonify({'Mensaje': 'Usuario eliminado exitosamente'})
         except Exception as error:
             print('Error al cargar datos', error)
             return jsonify({'Error al cargar datos de usuario ID: ', id_usuario}), 500

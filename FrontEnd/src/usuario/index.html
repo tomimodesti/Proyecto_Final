@@ -9,8 +9,7 @@
      <script defer src="../js/usuario.js"></script>
     <script defer src="../js/minero.js"></script>
     <script src="../js/sesion.js"></script>
-    <script src="../js/eliminarUsuario.js"></script>
-    <script> 
+    <script>
         const urlParams = new URLSearchParams(window.location.search);
         const id_user = urlParams.get('id'); 
     </script>
@@ -26,11 +25,10 @@
             <div class="collapse navbar-collapse show" id="navbarDark">
                <ul class="navbar-nav me-auto mb-2 mb-xl-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../crear/minador.html">Crear Minador</a>
+                        <a class="nav-link active" aria-current="page" href="../crear/minero.html">Crear Minador</a>
                     </li>
                     <li class="nav-item">
-                        <button onclick="window.location.href=`../usuario/edit/?id=${id_user}`" class="btn btn-secondary">Modificar usuario </button>
-                        
+                        <a onclick="window.location.href=`../usuario/edit/index.html?id=${id_user}`" class="btn btn-secondary" >Modificar usuario </a>
                     </li>
                 </ul>
             </div>

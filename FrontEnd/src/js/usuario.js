@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const id_user = urlParams.get('id'); 
 
     if (id_user) {
-        fetch(`http://localhost:5000/usuario/${id_user}`) 
+        fetch(`http://localhost:5000/usuario/${id_user}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
@@ -11,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
 
                 const usuarioContainer = document.getElementById('usuario-container');
 

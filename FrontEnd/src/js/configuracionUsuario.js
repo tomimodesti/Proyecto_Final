@@ -1,6 +1,6 @@
-const urlParams = new URLSearchParams(window.location.search);
-const id_user = urlParams.get('id');
 function eliminarUsuario() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id_user = urlParams.get('id');
     if(id_user){
         const confirmacion=window.confirm("Seguro que quieres borrar todos los datos de tu usuario?");
         
@@ -16,11 +16,16 @@ function eliminarUsuario() {
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
             }
-                return response.JSON();
+                return response.json();
             })
             .then(data => {
-                alert(`Usuario eliminado correctamente`);
-                window.location.href = '/'; 
+                if (data.Mensaje === "Usuario eliminado exitosamente") {
+                    alert(data.Mensaje);
+                    window.location.href = '../../index.html';
+                } else {
+                    alert('Error al eliminar usuario')
+                    window.location.href = '../index.html';
+                }
             })
             .catch(error => {
                 console.error('Error al eliminar el usuario:', error);
@@ -34,7 +39,8 @@ function eliminarUsuario() {
 }
 
 function editarUsuario() {
-   document.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    const id_user = urlParams.get('id');
 
     if(id_user){
         fetch(`http://localhost:5000/usuario/${id_user}` ,{
@@ -52,23 +58,28 @@ function editarUsuario() {
             })
         })
         .then(response => {
+            console.log(response)
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status}`);
-        }
+            }
             return response.json();
         })
         .then(data => {
-            alert(`Usuario actualizado correctamente`);
-            window.location.href = `/usuario?id=${id_user}`;
-            return data.json();
-    })
+            console.log(data)
+            if (data.Mensaje === "Usuario actualizado exitosamente") {
+                alert(`Usuario actualizado correctamente`);
+                window.location.href = `../usuario/index.html?id=${id_user}`;
+            } else {
+                alert('Error al actualizar usuario');
+            }
+        })
     .catch(error => {
-        console.error('Error con modificar datos 1:', error);
+        console.error('Error con modificar datos:', error);
         alert('Hubo un error al actualizar el usuario');
     });
     }
     else{
-        alert("Error al actualizar usuario 2");
+        alert("Error al actualizar usuario");
     }
 }
 
