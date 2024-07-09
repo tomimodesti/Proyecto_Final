@@ -335,4 +335,4 @@ def init_routes(app):
         if 'usuario_id' in session:
             return jsonify({'usuario_id': session['usuario_id']}), 200
         else:
-            return jsonify({'mensaje': 'Sesion inactiva'}), 401
+            return jsonify({'mensaje': 'Sesion inactiva'}), 200
