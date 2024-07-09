@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const urlParams = new URLSearchParams(window.location.search);
-    const id_minero = urlParams.get('id_minero');
+    const id_minero = urlParams.get('id');
 
     const form = document.querySelector('#formMinero');
     const cartasTiposMinas = document.getElementById('CartasTiposMinas');
