@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(data => {
         console.log(data);
         if (data.Mensaje && data.Mensaje === 'No se encontraron mineros para el usuario') {
-            minerosDetalles.innerHTML = `
+            minerosDetalles.innerHTML = `<div>
                 <p>Aún no tienes mineros creados, crea el primero para empezar a recolectar tus ganancias!!!</p>
+                </div>
             `;
         }else{  
             data.mineros.forEach(minero => {
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p>Fecha de última recolección: ${ultimaRecoleccion}</p>
                             <p>Tiempo restante para recolectar: <span id="tiempoRestante">${mineroData.minero.tiempo_restante}</span></p>
                             <button id='botonRecolectar${mineroData.minero.id}' class="btn btn-primary">Recolectar</button>
+                            <a class="btn btn-secondary" href="../minero?id=${minero.id}">Ver detalles</a>
                         </div>
                         `;
                         minerosDetalles.appendChild(dataMinero);
