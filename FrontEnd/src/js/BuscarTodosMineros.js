@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p>Fecha de creación: ${new Date(mineroData.minero.fecha_creacion).toLocaleString()}</p>
                             <p>Fecha de última recolección: ${ultimaRecoleccion}</p>
                             <p>Tiempo restante para recolectar: <span id="tiempoRestante${minero.id}">${mineroData.minero.tiempo_restante}</span></p>
-                            <button id='botonRecolectar${mineroData.minero.id}' class="btn btn-primary">Recolectar</button>
+                            <button id="botonRecolectar${minero.id}" class="btn btn-primary">Recolectar</button>
                             <a class="btn btn-secondary" href="../minero?id=${minero.id}">Ver detalles</a>
                         </div>
                         `;
@@ -73,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, 1000);
 
 
-                document.getElementById(`botonRecolectar${mineroData.minero.id}`).addEventListener('click', function () {
+                document.getElementById(`botonRecolectar${minero.id}`).addEventListener('click', function () {
                      fetch(`http://localhost:5000/recolectar`, {
                         method: 'POST',
                         credentials: 'include',
                         headers: {
                         'Content-Type': 'application/json'
                         },
-                     body: JSON.stringify({minero_id: mineroData.minero_id})
+                     body: JSON.stringify({minero_id: minero.id})
                         })
                         .then(response => {
                             console.log(response)
