@@ -89,4 +89,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error al acceder al minero:', error);
             alert('Error al acceder al minero, reintente');
         });
+
+       
+
 });
+
+document.getElementById('EliminarMinero').addEventListener('click',function(){
+    //id_minero
+    alert('seguro que quieres eliminarlo?');
+})
