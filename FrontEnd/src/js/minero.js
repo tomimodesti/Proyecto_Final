@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button id="botonRecolectar" class="btn btn-primary">Recolectar</button>
                 </div>
             `;
-                //TODO: agregar boton para ver los datos del minero
+               
                 const tiempoRestanteElem = document.getElementById('tiempoRestante');
                 let tiempoRestante = data.minero.tiempo_restante;
 
