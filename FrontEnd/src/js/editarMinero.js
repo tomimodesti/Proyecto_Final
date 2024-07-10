@@ -91,10 +91,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
        
+    document.getElementById('EliminarMinero').addEventListener('click',function(){
+    
+        if(id_minero){
+
+        const confirmacion= window.confirm('Seguro que quieres borrar los datos de tu minero?');
+
+        if(confirmacion){
+            alert('ok')
+        }else{
+            window.location.reload();
+        }
+}
+    
+})
 
 });
-
-document.getElementById('EliminarMinero').addEventListener('click',function(){
-    //id_minero
-    alert('seguro que quieres eliminarlo?');
-})

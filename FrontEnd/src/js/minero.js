@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button id="botonRecolectar" class="btn btn-primary">Recolectar</button>
                 </div>
             `;
-
+                //TODO: agregar boton para ver los datos del minero
                 const tiempoRestanteElem = document.getElementById('tiempoRestante');
                 let tiempoRestante = data.minero.tiempo_restante;
 
@@ -66,5 +66,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         })
-        .catch(error => console.error('Error al obtener detalles del minero:', error));
+        .catch(error => console.error('Error al obtener detalles del minero:', error));        
 });
