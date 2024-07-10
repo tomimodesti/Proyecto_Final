@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const id_user = urlParams.get('id'); 
 
     if (id_user) {
-        fetch(`http://localhost:5000/usuario/${id_user}`) 
+        fetch(`http://localhost:5000/usuario/${id_user}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
@@ -11,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
 
                 const usuarioContainer = document.getElementById('usuario-container');
 
@@ -23,10 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     card.innerHTML = `
                         <div class="card">
                             <div class="card-body m-4">
-                                <h5 class="card-title"> Nombre: ${usuario.nombre} (@${usuario.nombre_usuario})</h5>
-                                <p class="card-text">Apellido: ${usuario.apellido}</p>
-                                <p class="card-text">Email: ${usuario.email}</p>
-                                <p class="card-text">Dinero: ${usuario.dinero}</p>
+                                <h5 class="card-title" style="font-size:25px"> Nombre: ${usuario.nombre} (@${usuario.nombre_usuario})</h5>
+                                <p class="card-text" style="font-size:25px">Apellido: ${usuario.apellido}</p>
+                                <p class="card-text" style="font-size:25px">Email: ${usuario.email}</p>
+                                <p class="card-text" style="font-size:25px">Dinero: ${usuario.dinero} <i class="material-icons" style="font-size:25px" >&#xe227;</i> </p>
                             </div>
                         </div>
                     `;

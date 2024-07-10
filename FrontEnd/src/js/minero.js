@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            const ultimaRecoleccion = data.minero.fecha_ultima_recoleccion ? new Date(data.minero.fecha_ultima_recoleccion).toLocaleString() : 'Nunca';
+            if (data.minero) {
+                const ultimaRecoleccion = data.minero.fecha_ultima_recoleccion ? new Date(data.minero.fecha_ultima_recoleccion).toLocaleString() : 'Nunca';
 
-            minerosDetalles.innerHTML = `
+                minerosDetalles.innerHTML = `
                 <div>
                     <p>Nombre: ${data.minero.nombre}</p>
                     <p>Coste: ${data.minero.coste}</p>
@@ -25,44 +26,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
 
-            const tiempoRestanteElem = document.getElementById('tiempoRestante');
-            let tiempoRestante = data.minero.tiempo_restante;
+                const tiempoRestanteElem = document.getElementById('tiempoRestante');
+                let tiempoRestante = data.minero.tiempo_restante;
 
-            const intervalo = setInterval(() => {
-                if (tiempoRestante <= 0) {
-                    clearInterval(intervalo);
-                    tiempoRestanteElem.textContent = 'Disponible para recolectar';
-                } else {
-                    tiempoRestante -= 1;
-                    tiempoRestanteElem.textContent = tiempoRestante + ' segundos';
-                }
-            }, 1000);
-
-            document.getElementById('botonRecolectar').addEventListener('click', function() {
-                fetch(`http://localhost:5000/recolectar`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ minero_id: minero_id })
-                })
-                .then(response => {
-                    console.log(response)
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                const intervalo = setInterval(() => {
+                    if (tiempoRestante <= 0) {
+                        clearInterval(intervalo);
+                        tiempoRestanteElem.textContent = 'Disponible para recolectar';
+                    } else {
+                        tiempoRestante -= 1;
+                        tiempoRestanteElem.textContent = tiempoRestante + ' segundos';
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    alert('Recolección exitosa');
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error al recolectar:', error);
-                    alert('Hubo un error al recolectar. Por favor, inténtalo nuevamente.');
+                }, 1000);
+
+                document.getElementById('botonRecolectar').addEventListener('click', function () {
+                    fetch(`http://localhost:5000/recolectar`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({minero_id: minero_id})
+                    })
+                        .then(response => {
+                            console.log(response)
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            alert('Recolección exitosa');
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error('Error al recolectar:', error);
+                            alert('Hubo un error al recolectar. Por favor, inténtalo nuevamente.');
+                        });
                 });
-            });
+            }
         })
         .catch(error => console.error('Error al obtener detalles del minero:', error));
 });

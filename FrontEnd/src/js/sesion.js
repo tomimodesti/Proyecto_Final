@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (data.usuario_id) {
             authButtons.innerHTML = `
-                <a href="usuario/index.html?${data.usuario_id}" class="btn btn-primary">Mi perfil</a>
+                <a href="/usuario?id=${data.usuario_id}" class="btn btn-primary">Mi perfil</a>
                 <button id="cerrarSesion" class="btn btn-primary">Cerrar Sesión</button>
             `;
 
