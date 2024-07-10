@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('#formMinero');
     const cartasTiposMinas = document.getElementById('CartasTiposMinas');
 
-    form.addEventListener('submit', function(event) {
+    document.getElementById('ModificarMinero').addEventListener('click', function(event) {
         event.preventDefault();
         const tipoMinador = document.querySelector('input[name="tipoMina"]:checked');
         const dataMinero = {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             alert('Minero modificado exitosamente');
-            window.location.href = '../index.html';
+            window.location.href = `..?id=${id_minero}`;
         })
         .catch(error => {
             console.error('Error al modificar Minero:', error);
@@ -91,14 +91,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
        
-    document.getElementById('EliminarMinero').addEventListener('click',function(){
-    
+    document.getElementById('EliminarMinero').addEventListener('click',function(event){
+        event.preventDefault();
         if(id_minero){
-
         const confirmacion= window.confirm('Seguro que quieres borrar los datos de tu minero?');
-
         if(confirmacion){
-            alert('ok')
+            fetch(`http://localhost:5000/minero/${id_minero}`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            })
+            .then(data =>{
+                alert('Minero eliminado exitosamente');
+                window.location.href = "../../";
+            })
+            .catch(error =>{
+                console.error('Error al eliminar Minero:', error);
+                alert('Hubo un error al eliminar el Minero. Por favor, inténtalo nuevamente.');
+            })
         }else{
             window.location.reload();
         }
