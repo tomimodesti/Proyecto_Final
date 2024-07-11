@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         tiempoRestanteElem.textContent = 'Disponible para recolectar';
                     } else {
                         tiempoRestante -= 1;
-                        tiempoRestanteElem.textContent = tiempoRestante + ' segundos';
+                        tiempoRestanteElem.textContent = Math.round(tiempoRestante) + ' segundos';
                     }
                 }, 1000);
 
