@@ -9,10 +9,6 @@
      <script defer src="../js/usuario.js"></script>
     <script defer src="../js/minero.js"></script>
     <script src="../js/sesion.js"></script>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const id_user = urlParams.get('id'); 
-    </script>
 </head>
 
 <body>
@@ -27,12 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="../crear/minero.html">Crear Minador</a>
                     </li>
-                    <li class="nav-item">
-                        <a onclick="window.location.href=`../usuario/edit/index.html?id=${id_user}`" class="btn btn-secondary" >Modificar usuario </a>
-                    </li>
                 </ul>
             </div>
-            <div id="botonesSesion"></div>
+            <div style="display: flex" id="botonesSesion"></div>
         </div>
     </nav>
    <div id="usuario-container" class="text-center"></div>
