@@ -117,7 +117,13 @@ def init_routes(app):
                     return jsonify({'Mensaje': 'No tienes permiso para actualizar este minero'}), 403
                 data = request.get_json()
                 minero.nombre = data.get("nombre")
-                minero.tipo_minador_id=data.get("tipo_minador")
+                if data.get("tipo_minador") != minero.tipo_minador_id:
+                    tipo_minador = TiposMinas.query.get(data.get("tipo_minador"))
+                    if tipo_minador.coste > usuario.dinero:
+                        return jsonify({'Mensaje': 'No tienes suficiente dinero'}), 200
+                    minero.tipo_minador_id = tipo_minador.tipo_id
+                    minero.fecha_ultima_recoleccion = None
+                    minero.fecha_ultima_modificacion = datetime.utcnow()
                 db.session.commit()
                 return jsonify({'Mensaje': 'Minero actualizado exitosamente'})
             elif request.method == 'DELETE':
@@ -147,7 +153,7 @@ def init_routes(app):
             tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
 
             if minero.fecha_ultima_recoleccion is None:
-                minero.fecha_ultima_recoleccion = minero.fecha_creacion
+                minero.fecha_ultima_recoleccion = minero.fecha_ultima_modificacion
                 db.session.commit()
 
             tiempo_transcurrido = (datetime.utcnow() - minero.fecha_ultima_recoleccion).total_seconds()
@@ -155,6 +161,7 @@ def init_routes(app):
             if tiempo_transcurrido >= tipo_minador.tiempo_mineria:
                 dinero_generado = tipo_minador.dinero_generado
                 usuario.dinero += dinero_generado
+                minero.dinero += dinero_generado
                 minero.fecha_ultima_recoleccion = datetime.utcnow()
                 db.session.commit()
                 return jsonify({'Mensaje': 'Dinero recolectado exitosamente', 'dinero_generado': dinero_generado}), 200
@@ -231,7 +238,8 @@ def init_routes(app):
                 usuario.apellido = data.get("apellido",usuario.apellido)
                 usuario.email=data.get("email",usuario.email)
                 usuario.nombre_usuario=data.get("nombre_usuario",usuario.nombre_usuario)
-                #usuario.set_password(data.get("password",usuario.password))
+                if data.get("password",usuario.password):
+                    usuario.set_password(data.get("password",usuario.password))
                 db.session.commit()
                 return jsonify({'Mensaje': 'Usuario actualizado exitosamente'})
 

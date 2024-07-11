@@ -9,6 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.mensaje === "Sesion inactiva") {
             window.location.href = '../login.html';
         }
+        console.log(data)
+        if (data.usuario_id) {
+            fetch(`http://localhost:5000/usuario/${data.usuario_id}`, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.Usuario?.dinero) {
+                    document.getElementById('dineroUsuario').innerText = `Dinero en cuenta: $${data.Usuario.dinero}`;
+                }
+            })
+        }
     })
     .catch(error => {
         console.error('Error al verificar usuario, vuelva a iniciar sesion:', error);

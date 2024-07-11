@@ -17,6 +17,7 @@ class Mineros(db.Model):
     nombre: Mapped[str] = mapped_column(unique=True)
     dinero: Mapped[int] = mapped_column(default=0)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_ultima_modificacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_ultima_recoleccion = db.Column(db.DateTime, nullable=True)
 
 
