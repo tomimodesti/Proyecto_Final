@@ -44,8 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         const ultimaRecoleccion = mineroData.minero.fecha_ultima_recoleccion ? new Date(mineroData.minero.fecha_ultima_recoleccion).toLocaleString() : 'Nunca';
                         dataMinero.innerHTML=`
-                        <div class="m-3">
-                            <p>Nombre: ${mineroData.minero.nombre}</p>
+                        <div class="card mx-auto p-2 m-3" style="width: 30rem;">
+                        <div class="card-body m-4">
+                            <h5 class="card-tittle">Nombre: ${mineroData.minero.nombre}</h5>
                             <p>Coste: ${mineroData.minero.coste}</p>
                             <p>Dinero que genera: ${mineroData.minero.dinero_generado}</p>
                             <p>Tiempo que demora: ${mineroData.minero.tiempo_mineria}</p>
@@ -54,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p>Tiempo restante para recolectar: <span id="tiempoRestante${minero.id}">${mineroData.minero.tiempo_restante}</span></p>
                             <button id="botonRecolectar${minero.id}" class="btn btn-primary">Recolectar</button>
                             <a class="btn btn-secondary" href="../minero?id=${minero.id}">Ver detalles</a>
+                        </div>
                         </div>
                         `;
 

@@ -42,7 +42,7 @@ def init_routes(app):
         try:
             mineros = Mineros.query.filter_by(usuario_id=id_usuario).all()
             if not mineros:
-                return jsonify({'Mensaje': 'No se encontraron mineros para el usuario'}), 404
+                return jsonify({'Mensaje': 'No se encontraron mineros para el usuario'}), 200
             mineros_data = []
             for minero in mineros:
                 minero_data = {
