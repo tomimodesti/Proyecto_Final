@@ -5,13 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(data => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id_user = urlParams.get('id');
         const authButtons = document.getElementById('botonesSesion');
         authButtons.innerHTML = '';
 
         if (data.usuario_id) {
-            authButtons.innerHTML = `
-                <a href="/usuario?id=${data.usuario_id}" class="btn btn-primary">Mi perfil</a>
-                <button id="cerrarSesion" class="btn btn-primary">Cerrar Sesión</button>
+            if (window.location.pathname === '/usuario/' && id_user == data.usuario_id) {
+                authButtons.innerHTML = `<a onclick="window.location.href=\`../usuario/edit/index.html?id=${id_user}\`" class="btn btn-secondary" >Modificar usuario </a>`;
+            }
+
+            authButtons.innerHTML += `
+                <div style="margin: 0 15px">
+                    <a href="/usuario?id=${data.usuario_id}" class="btn btn-primary">Mi perfil</a>
+                    <button id="cerrarSesion" class="btn btn-primary">Cerrar Sesión</button>
+                </div>
             `;
 
             const cerrarSesion = document.getElementById('cerrarSesion');
