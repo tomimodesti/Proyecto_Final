@@ -1,0 +1,69 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    background-color: #F6F6F6;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.navbar {
+    margin-bottom: 20px;
+}
+.container h2 {
+    margin-bottom: 20px;
+    color: #343a40;
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: #f1f1f1;
+    text-align: center;
+    padding: 10px 0;
+}
+.toggle-section {
+    cursor: pointer;
+}
+.toggle-section::after {
+    font-family: "Font Awesome 5 Free";
+    content: "  \f107";
+    font-weight: 600;
+}
+.toggle-section.collapsed::after {
+    content: "  \f106";
+}
+.row > .col {
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    flex: 1;
+    padding-bottom: 80px;
+}
+.section-container {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 25px 0;
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px 0 #0000001A;
+}
+.border-card {
+    box-shadow: 0 4px 14px 0 #0000001A;
+    border-radius: 8px;
+}
