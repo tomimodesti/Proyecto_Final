@@ -1,5 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    let usuarioDinero = 0;
+    function actualizarDineroRestante() {
+        document.querySelectorAll('input[name="tipoMina"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const coste = parseInt(this.dataset.coste, 10);
+                const dineroRestante = usuarioDinero - coste;
+
+                if (dineroRestante < 0) {
+                    document.getElementById('dineroRestante').innerText = 'No tienes suficiente dinero para seleccionar este tipo de mina.';
+                } else {
+                    document.getElementById('dineroRestante').innerText = `Dinero restante: $${dineroRestante}`;
+                }
+            });
+        });
+    }
+
     fetch('http://localhost:5000/sesion', {
         method: 'GET',
         credentials: 'include'
@@ -18,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.Usuario?.dinero) {
+                    usuarioDinero = data.Usuario.dinero;
                     document.getElementById('dineroUsuario').innerText = `Dinero en cuenta: $${data.Usuario.dinero}`;
                 }
             })
@@ -87,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <p class="card-text">Dinero que genera: ${tipoMina.dinero_generado}</p>
                                     <p class="card-text">Tiempo demora: ${tipoMina.tiempo_mineria}</p>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tipoMina" id="tipoMina${tipoMina.id}" value="${tipoMina.id}">
+                                        <input class="form-check-input" type="radio" name="tipoMina" id="tipoMina${tipoMina.id}" value="${tipoMina.id}" data-coste="${tipoMina.coste}" >
                                         <label class="form-check-label" for="tipoMina${tipoMina.id}">
                                             Seleccionar
                                         </label>
@@ -97,7 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         `;
 
                         cartasTiposMinas.appendChild(carta);
-                    });
+
+                        
                 })
+                actualizarDineroRestante();
+            })
         .catch(error => console.error('Error al obtener tipos de minas:', error));
 });
