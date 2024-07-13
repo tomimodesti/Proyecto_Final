@@ -13,7 +13,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const minero_id = urlParams.get('id');
         window.location.href=`edit?id=${minero_id}`
-        //TODO: mover el script a /js/minero.js
        }
     </script>
 </head>
@@ -25,11 +24,12 @@
             <div id="botonesSesion"></div>
         </div>
     </nav>
-    <div class="container">
-        <div id="mineros-container" class="m-5 text-center"></div>
-    </div>
+    <div class="text-center">
+        <div id="mineros-container" class="card mx-auto p-2 m-5" style="width: 65rem;"></div>
+        
     <div class="container text-center">
         <button class="btn btn-secondary btn-lg" onclick="redirigirMinero()"> Modificar Minero</button>
+    </div>
     </div>
 
     <footer>

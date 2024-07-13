@@ -14,8 +14,10 @@
 .nombre-minero{
     justify-content: center
 }
-#dineroUsuario {
+.dinero {
     text-align: center;
     margin: 30px;
     font-size: 19px;
 }
+
+
