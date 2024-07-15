@@ -92,7 +92,7 @@ def init_routes(app):
 
                 tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
 
-                if 'usuario_id' in session and minero.usuario_id != session['usuario_id']:
+                if 'usuario_id' not in session or minero.usuario_id != session['usuario_id']:
                     minero_data = {
                         'nombre': minero.nombre,
                         'tipo_minador': minero.tipo_minador_id,
