@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log('Usuario creado exitosamente:', data);
                 alert('Usuario creado exitosamente');
                 window.location.href = '../index.html';
             })

@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Usuario logueado exitosamente:', data);
                     alert('Usuario logueado exitosamente');
                     window.location.href = 'index.html';
                 })

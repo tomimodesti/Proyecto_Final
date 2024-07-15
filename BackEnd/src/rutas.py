@@ -91,6 +91,18 @@ def init_routes(app):
             if request.method == 'GET':
 
                 tipo_minador = TiposMinas.query.get(minero.tipo_minador_id)
+
+                if 'usuario_id' not in session or minero.usuario_id != session['usuario_id']:
+                    minero_data = {
+                        'nombre': minero.nombre,
+                        'tipo_minador': minero.tipo_minador_id,
+                        'coste': tipo_minador.coste,
+                        'dinero_generado': tipo_minador.dinero_generado,
+                        'tiempo_mineria': tipo_minador.tiempo_mineria,
+                        'fecha_creacion': minero.fecha_creacion,
+                    }
+                    return jsonify({'minero': minero_data})
+
                 if minero.fecha_ultima_recoleccion is None:
                     tiempo_transcurrido = (datetime.utcnow() - minero.fecha_creacion).total_seconds()
                 else:
@@ -236,10 +248,10 @@ def init_routes(app):
                 data = request.get_json()
                 usuario.nombre = data.get("nombre",usuario.nombre)
                 usuario.apellido = data.get("apellido",usuario.apellido)
-                usuario.email=data.get("email",usuario.email)
-                usuario.nombre_usuario=data.get("nombre_usuario",usuario.nombre_usuario)
-                if data.get("password",usuario.password):
-                    usuario.set_password(data.get("password",usuario.password))
+                usuario.email = data.get("email",usuario.email)
+                usuario.nombre_usuario = data.get("nombre_usuario",usuario.nombre_usuario)
+                if data.get("password"):
+                    usuario.set_password(data.get("password"))
                 db.session.commit()
                 return jsonify({'Mensaje': 'Usuario actualizado exitosamente'})
 
