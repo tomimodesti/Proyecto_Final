@@ -59,7 +59,7 @@ flask run --debug
 ```
 
 ## Agregar datos
-Para agregar tipo de minadores a la base de dato se puede las siguientes querys:
-- INSERT INTO tipos_minas (nombre, coste, dinero_generado, tiempo_mineria) VALUES ("Bitcoin", 50, 10,60);
-- INSERT INTO tipos_minas (nombre, coste, dinero_generado, tiempo_mineria) VALUES ("Ethereum", 100, 20,120);
-- INSERT INTO tipos_minas (nombre, coste, dinero_generado, tiempo_mineria) VALUES ("Litecoin", 150, 30,180);
+Para agregar tipo de minas a la base de datos se puede usar las siguientes querys:
+- INSERT INTO tipos_minas (nombre, coste, dinero_generado, tiempo_mineria) VALUES ('Bitcoin', 50, 10,60);
+- INSERT INTO tipos_minas (nombre, coste, dinero_generado, tiempo_mineria) VALUES ('Ethereum', 100, 20,120);
+- INSERT INTO tipos_minas (nombre, coste, dinero_generado, tiempo_mineria) VALUES ('Litecoin', 150, 30,180);
