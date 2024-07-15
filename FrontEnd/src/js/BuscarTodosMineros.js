@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     .then(data => {
-        console.log(data);
         if (data.Mensaje && data.Mensaje === 'No se encontraron mineros para el usuario') {
             minerosDetalles.innerHTML = `<div>
                 <p>Aún no tienes mineros creados, crea el primero para empezar a recolectar tus ganancias!!!</p>
@@ -39,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 })//
                     .then(mineroData => {
-                        console.log(mineroData);
                         const dataMinero = document.createElement('div');
                         
                         const ultimaRecoleccion = mineroData.minero.fecha_ultima_recoleccion ? new Date(mineroData.minero.fecha_ultima_recoleccion).toLocaleString() : 'Nunca';
@@ -85,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
                      body: JSON.stringify({minero_id: minero.id})
                         })
                         .then(response => {
-                            console.log(response)
                             if (!response.ok) {
                             throw new Error(`HTTP error! Status: ${response.status}`);
                             }

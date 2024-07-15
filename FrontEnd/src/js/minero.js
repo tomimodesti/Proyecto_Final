@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             body: JSON.stringify({minero_id: minero_id})
                         })
                             .then(response => {
-                                console.log(response)
                                 if (!response.ok) {
                                     throw new Error(`HTTP error! Status: ${response.status}`);
                                 }

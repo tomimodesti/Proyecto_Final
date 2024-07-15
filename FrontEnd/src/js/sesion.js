@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Sesión cerrada exitosamente:', data);
                     alert('Sesión cerrada exitosamente');
                     window.location.href = '/';
                 })

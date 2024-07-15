@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.mensaje === "Sesion inactiva") {
             window.location.href = '../login.html';
         }
-        console.log(data)
         if (data.usuario_id) {
             fetch(`http://localhost:5000/usuario/${data.usuario_id}`, {
                 method: 'GET',
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log('Minero creado exitosamente:', data);
                 alert('Minero creado exitosamente');
                 window.location.href = '../index.html';
             })
